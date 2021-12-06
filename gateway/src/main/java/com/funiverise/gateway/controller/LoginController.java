@@ -9,5 +9,4 @@ package com.funiverise.gateway.controller;
 public class LoginController {
 
 
-    public ResultMsg<>
 }

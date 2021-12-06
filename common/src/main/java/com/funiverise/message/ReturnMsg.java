@@ -1,8 +1,11 @@
 package com.funiverise.message;
 
-import java.lang.;
+import java.time.LocalTime;
+import com.funiverise.constant.TimeFormatConstant;
+import com.funiverise.enums.ReturnResultEnums;
+import com.funiverise.utils.TimeUtils;
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -12,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
  * @date 2021/12/6 17:16
  */
 @Data
+@NoArgsConstructor
 public class ReturnMsg<T> {
 
     private String code;
@@ -20,14 +24,36 @@ public class ReturnMsg<T> {
 
     private String time;
 
+    private Boolean hasError;
+
+    private T result;
+
+    private String errorMsg;
+
+    public ReturnMsg(Boolean hasError) {
+        this.hasError = hasError;
+        this.time = TimeUtils.getFormatTime(LocalTime.now(), TimeFormatConstant.YYYY_MM_DD_LONG);
+    }
+
     public ReturnMsg(String code, String message) {
         this.code = code;
         this.message = message;
-        this.time =
+        this.hasError = false;
+        this.time = TimeUtils.getFormatTime(LocalTime.now(), TimeFormatConstant.YYYY_MM_DD_LONG);
     }
 
-    public static ReturnMsg<?> initSuccessResult() {
-        ReturnMsg<?> returnMsg = new ReturnMsg<>();
+    public static ReturnMsg<?> initSuccessResult(String message) {
+        return new ReturnMsg<>(ReturnResultEnums.SUCCESS.getCode(),message);
+    }
+
+    public static ReturnMsg<?> initFailResult(String message) {
+        ReturnMsg<?> returnMsg = new ReturnMsg<>(true);
+        returnMsg.setErrorMsg(message);
+        return returnMsg;
+    }
+
+    public static ReturnMsg<?> getReturnMsg(String code ,String message) {
+        return new ReturnMsg<>(code,message);
     }
 
 }

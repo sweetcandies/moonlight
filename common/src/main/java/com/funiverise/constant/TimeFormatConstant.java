@@ -1,5 +1,6 @@
 package com.funiverise.constant;
 
+import com.funiverise.utils.TimeUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalTime;
@@ -38,25 +39,7 @@ public class TimeFormatConstant {
     private TimeFormatConstant(){}
 
 
-    public static  <T>  String getFormatTime(T time, String pattern) {
-        if (StringUtils.isBlank(pattern)) {
-            throw new NullPointerException("时间格式不可为空");
-        }
-        if (null == time) {
-            throw new NullPointerException("时间对象不可为空");
-        }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-        if (time instanceof Date) {
-            return formatter.format(((Date) time).toInstant());
-        }
-        if (time instanceof Calendar) {
-            return formatter.format(((Calendar) time).toInstant());
-        }
-        if (time instanceof Long) {
-            return 
-        }
-        return ;
-    }
+
 
 
 
