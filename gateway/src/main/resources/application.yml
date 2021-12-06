@@ -1,0 +1,10 @@
+# 注册到 eureka server 配置
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+server:
+  port: 8763
+spring:
+  application:
+    name: gateway

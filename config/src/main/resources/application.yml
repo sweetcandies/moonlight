@@ -1,0 +1,17 @@
+# 注册到 eureka server 配置
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+server:
+  port: 8762
+spring:
+  application:
+    name: config
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:configs/main-dev.yml
+  profiles:
+    active: native
