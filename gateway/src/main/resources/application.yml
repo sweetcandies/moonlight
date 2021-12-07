@@ -8,3 +8,10 @@ server:
 spring:
   application:
     name: gateway
+  cloud:
+    config:
+      uri: http://localhost:8762/
+      name: main
+      profile: dev
+  config:
+    import: configserver:${spring.cloud.config.uri}

@@ -1,2 +1,63 @@
-main:
-  hello word!
+server:
+  host: 127.0.0.1
+spring:
+  servlet:
+    multipart:
+      # 上传一个文件最大值，默认1MB   
+      max-file-size: 10MB
+      # 上传多个文件最大值，默认10MB
+      max-request-size: 100MB
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://${server.host}:3306/moon?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=utf8
+      username: moonlight
+      password: 1NN7Eax4BeEH4UL
+      #初始化连接池个数
+      initial-size: 100
+      #最小连接数
+      min-idle: 500
+      #最大连接数
+      max-active: 2000
+      #配置获取连接等待超时的时间
+      max-wait: 6000
+      #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 2000
+      #配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 600000
+      max-evictable-idle-time-millis: 900000
+      validation-query: SELECT ID FROM ON_LINE
+      test-while-idle: true
+      #申请连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      test-on-borrow: false
+      #归还连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      test-on-return: false
+      #打开PSCache，并且指定每个连接上PSCache的大小
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      #配置扩展插件
+      filters: stat,wall
+      #通过 connection-properties 属性打开 mergeSql 功能；慢 SQL 记录
+      connect-properties:
+        druid-stat-mergeSql: true
+        druid-stat-slowSqlMillis: 500
+      #合并多个DruidDataSource的监控数据
+      use-global-data-source-stat: true
+  redis:
+    enable: false
+    host: ${server.host}
+    port: 6379
+    password:
+    lettuce:
+      pool:
+        #连接池最大连接数
+        max-active: 2000
+        #连接池最大空闲连接数
+        max-idle: 100
+        #最大建立连接等待时间
+        max-wait: 5000
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: false

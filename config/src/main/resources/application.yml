@@ -2,7 +2,7 @@
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://127.0.0.1:8761/eureka/
 server:
   port: 8762
 spring:
@@ -12,6 +12,7 @@ spring:
     config:
       server:
         native:
-          search-locations: classpath:configs/main-dev.yml
+          search-locations: classpath:configs/
   profiles:
     active: native
+    include: main-dev.yml

@@ -3,10 +3,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
+	<properties>
+		<java.version>1.8</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<spring-cloud.version>2020.0.4</spring-cloud.version>
+		<mysql.version>8.0.27</mysql.version>
+		<mybatis-plus.version>3.4.3</mybatis-plus.version>
+		<junit.version>4.12</junit.version>
+		<common-lang3.version>3.12.0</common-lang3.version>
+		<hutool-all.version>5.7.16</hutool-all.version>
+		<druid.version>1.2.8</druid.version>
+		<moonlight.version>0.0.1-SNAPSHOT</moonlight.version>
+	</properties>
 	<groupId>com.funiverise</groupId>
 	<artifactId>moonlight</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${moonlight.version}</version>
 
 	<name>moonlight</name>
 	<packaging>pom</packaging>
@@ -18,17 +32,7 @@
 	</parent>
 
 
-	<properties>
-        <java.version>1.8</java.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>${java.version}</maven.compiler.source>
-		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<spring-cloud.version>2020.0.4</spring-cloud.version>
-        <mysql.version>8.0.27</mysql.version>
-        <mybatis.version>3.5.7</mybatis.version>
-        <junit.version>4.12</junit.version>
-		<common-lang3.version>3.12.0</common-lang3.version>
-	</properties>
+
 	
 	<dependencies>
         <dependency>
@@ -58,7 +62,44 @@
 				<artifactId>commons-lang3</artifactId>
 				<version>${common-lang3.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>8.0.27</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-boot-starter</artifactId>
+				<version>${mybatis-plus.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>tomcat-jdbc</artifactId>
+						<groupId>org.apache.tomcat</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>cn.hutool</groupId>
+				<artifactId>hutool-all</artifactId>
+				<version>${hutool-all.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-generator</artifactId>
+				<version>3.5.1</version>
+			</dependency>
 
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid-spring-boot-starter</artifactId>
+				<version>${druid.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.funiverise</groupId>
+				<artifactId>common</artifactId>
+				<version>${moonlight.version}</version>
+			</dependency>
 		</dependencies>
     </dependencyManagement>
 

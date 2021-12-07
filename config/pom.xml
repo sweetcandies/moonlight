@@ -30,6 +30,15 @@
 			<artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.funiverise</groupId>
+			<artifactId>common</artifactId>
+		</dependency>
     </dependencies>
 	<build>
 		<plugins>
@@ -39,6 +48,19 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<build.profile.id>dev</build.profile.id>
+			</properties>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<build.profile.id>test</build.profile.id>
+			</properties>
+		</profile>
+	</profiles>
     
 </project>
