@@ -1,6 +1,8 @@
 package com.funiverise.gateway.controller;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.funiverise.gateway.entity.User;
+import com.funiverise.gateway.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,12 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/login")
 public class LoginController {
 
-    @Value("${server.host}")
-    private String hello;
+    @Autowired
+    private IUserService service;
 
     @GetMapping("hello")
     public void sayHello() {
-        System.out.println(hello);
+        User user = service.getById("1");
+        if (user == null) {
+            System.out.println("没查到哦!");
+        }
     }
 
 }

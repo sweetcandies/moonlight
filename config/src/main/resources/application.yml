@@ -14,5 +14,4 @@ spring:
         native:
           search-locations: classpath:configs/
   profiles:
-    active: native
-    include: main-dev.yml
+    active: main-dev.yml
