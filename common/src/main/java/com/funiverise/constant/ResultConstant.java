@@ -8,10 +8,13 @@ package com.funiverise.constant;
  */
 public class ResultConstant {
 
+    private ResultConstant(){}
+
     /**成功*/
     public static String SUCCESS = "success";
 
     /**失败*/
     public static String FAILURE = "failure";
+
 
 }

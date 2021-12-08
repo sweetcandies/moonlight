@@ -22,9 +22,11 @@ public class LoginController {
 
     @GetMapping("hello")
     public void sayHello() {
-        User user = service.getById("1");
+        User user = service.getById("d2fd24def39846b58a3780180ec3a4ca");
         if (user == null) {
             System.out.println("没查到哦!");
+        } else {
+            System.out.println(user);
         }
     }
 

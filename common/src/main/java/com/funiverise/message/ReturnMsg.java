@@ -1,11 +1,12 @@
 package com.funiverise.message;
 
-import java.time.LocalTime;
 import com.funiverise.constant.TimeFormatConstant;
 import com.funiverise.enums.ReturnResultEnums;
 import com.funiverise.utils.TimeUtils;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalTime;
 
 
 /**
@@ -42,18 +43,22 @@ public class ReturnMsg<T> {
         this.time = TimeUtils.getFormatTime(LocalTime.now(), TimeFormatConstant.YYYY_MM_DD_LONG);
     }
 
-    public static ReturnMsg<?> initSuccessResult(String message) {
+    public static <T> ReturnMsg<T> initSuccessResult(String message) {
         return new ReturnMsg<>(ReturnResultEnums.SUCCESS.getCode(),message);
     }
 
-    public static ReturnMsg<?> initFailResult(String message) {
-        ReturnMsg<?> returnMsg = new ReturnMsg<>(true);
+    public static <T> ReturnMsg<T> initFailResult(String message) {
+        ReturnMsg<T> returnMsg = new ReturnMsg<>(true);
         returnMsg.setErrorMsg(message);
         return returnMsg;
     }
 
-    public static ReturnMsg<?> getReturnMsg(String code ,String message) {
+    public static <T> ReturnMsg<T> getReturnMsg(String code ,String message) {
         return new ReturnMsg<>(code,message);
     }
 
+
+    public Boolean isHasError() {
+        return this.hasError;
+    }
 }
