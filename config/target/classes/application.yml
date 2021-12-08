@@ -1,0 +1,26 @@
+spring:
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/configs
+  profiles:
+    active: native
+  application:
+    name: config
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/moon?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=utf8
+    username: moonlight
+    password: 1NN7Eax4BeEH4UL
+# port
+server:
+  port: 8888
+
+# 注册到 eureka server 配置
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
+
+
