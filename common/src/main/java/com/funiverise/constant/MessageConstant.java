@@ -9,12 +9,12 @@ package com.funiverise.constant;
 public class MessageConstant {
 
     private MessageConstant(){}
-
+    /**用户名不可为空*/
     public static String RS_00001 = "用户名不可为空";
-
+    /**用户不存在*/
     public static String RS_00002 = "用户不存在";
-
+    /**用户信息残缺，请联系管理员*/
     public static String RS_00003 = "用户信息残缺，请联系管理员";
-
+    /**系统内部错误，请联系管理员*/
     public static String RS_00004 = "系统内部错误，请联系管理员";
 }

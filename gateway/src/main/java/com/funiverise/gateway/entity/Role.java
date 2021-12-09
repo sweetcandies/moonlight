@@ -26,6 +26,8 @@ public class Role implements Serializable {
 
     private String name;
 
+    private String code;
+
     private String parentId;
 
     private LocalDateTime createTime;
@@ -43,6 +45,7 @@ public class Role implements Serializable {
         return "Role{" +
         "id=" + id +
         ", name=" + name +
+        ", code=" + code +
         ", parentId=" + parentId +
         ", createTime=" + createTime +
         ", updateTime=" + updateTime +

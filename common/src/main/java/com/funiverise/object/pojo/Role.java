@@ -24,6 +24,8 @@ public class Role implements Serializable {
 
     private String name;
 
+    private String code;
+
     private String parentId;
 
     private LocalDateTime createTime;
