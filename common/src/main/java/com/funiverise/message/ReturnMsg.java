@@ -47,9 +47,10 @@ public class ReturnMsg<T> {
         return new ReturnMsg<>(ReturnResultEnums.SUCCESS.getCode(),message);
     }
 
-    public static <T> ReturnMsg<T> initFailResult(String message) {
+    public static <T> ReturnMsg<T> initFailResult(ReturnResultEnums result) {
         ReturnMsg<T> returnMsg = new ReturnMsg<>(true);
-        returnMsg.setErrorMsg(message);
+        returnMsg.setCode(result.getCode());
+        returnMsg.setErrorMsg(result.getDesc());
         return returnMsg;
     }
 

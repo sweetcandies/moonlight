@@ -4,8 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.funiverise.constant.Constants;
-import com.funiverise.constant.MessageConstant;
-import com.funiverise.constant.ResultConstant;
+import com.funiverise.enums.ReturnResultEnums;
 import com.funiverise.gateway.dao.UserMapper;
 import com.funiverise.gateway.entity.User;
 import com.funiverise.gateway.service.IPermissionService;
@@ -42,21 +41,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public ReturnMsg<UserDetailVO> getUserDetail(String username) {
         if (StringUtils.isBlank(username)) {
-            return ReturnMsg.initFailResult(MessageConstant.RS_00001);
+            return ReturnMsg.initFailResult(ReturnResultEnums.R_000001);
         }
         User user = getUserByUsername(username);
         if (null == user) {
-            return ReturnMsg.initFailResult(MessageConstant.RS_00002);
+            return ReturnMsg.initFailResult(ReturnResultEnums.R_000002);
         }
         Set<com.funiverise.object.pojo.Role> roles = roleService.getRoleSetByUsername(username);
         if (CollectionUtil.isEmpty(roles)) {
             log.debug("[用户角色为空]");
-            return ReturnMsg.initFailResult(MessageConstant.RS_00003);
+            return ReturnMsg.initFailResult(ReturnResultEnums.R_000003);
         }
         Set<com.funiverise.object.pojo.Permission> permissions = permissionService.getPermissionsByRoleId(roles.stream().map(com.funiverise.object.pojo.Role::getId).toArray(String[]::new));
         if (CollectionUtil.isEmpty(permissions)) {
             log.debug("[用户角色的权限为空]");
-            return ReturnMsg.initFailResult(MessageConstant.RS_00003);
+            return ReturnMsg.initFailResult(ReturnResultEnums.R_000003);
         }
         ReturnMsg<UserDetailVO> returnMsg = new ReturnMsg<>(true);
         UserDetailVO userDetailVO = UserDetailVO.builder().roleSet(roles).permissionSet(permissions).build();
@@ -65,12 +64,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         } catch (NoSuchFieldException | IllegalAccessException e) {
             log.debug("[对象copy失败]");
             e.printStackTrace();
-            returnMsg.setErrorMsg(MessageConstant.RS_00004);
+            returnMsg.setErrorMsg(ReturnResultEnums.R_000004.getDesc());
             return returnMsg;
         }
         returnMsg.setHasError(false);
         returnMsg.setResult(userDetailVO);
-        returnMsg.setCode(ResultConstant.SUCCESS);
+        returnMsg.setCode(ReturnResultEnums.SUCCESS.getCode());
         return returnMsg;
     }
 

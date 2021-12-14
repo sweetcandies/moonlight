@@ -9,19 +9,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Funny
  * @version 1.0
- * @description: TODO
+ * @description: 默认用户详情
  * @date 2021/12/8 14:39
  */
 @Slf4j
@@ -29,31 +29,39 @@ import java.util.List;
 public class DefaultUserDetailsService implements UserDetailsService {
 
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private IUserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // 查询数据库操作
-        if(!username.equals("admin")){
-            throw new UsernameNotFoundException("the user is not found");
-        }else{
-            ReturnMsg<UserDetailVO> userResult = userService.getUserDetail(username);
-            if (userResult.isHasError()) {
-                throw new UsernameNotFoundException("查询失败");
-            }
-            UserDetailVO user = userResult.getResult();
-            List<GrantedAuthority> authorities = new ArrayList<>();
-            for (Role role : user.getRoleSet()) {
-                authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
-            }
-            for (Permission permission : user.getPermissionSet()) {
-                authorities.add(new SimpleGrantedAuthority(permission.getCode()));
-            }
-            return new org.springframework.security.core.userdetails.User(username,user.getPassword(), authorities);
+
+        ReturnMsg<UserDetailVO> userResult = userService.getUserDetail(username);
+        if (userResult.isHasError()) {
+            throw new UsernameNotFoundException("查询失败");
         }
+        UserDetailVO user = userResult.getResult();
+        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        // 可用性 :true:可用 false:不可用
+        boolean enabled = user.isEnable();
+        // 过期性 :true:没过期 false:过期
+        boolean accountNonExpired = true;
+        // 有效性 :true:凭证有效 false:凭证无效
+        boolean credentialsNonExpired = true;
+        // 锁定性 :true:未锁定 false:已锁定
+        boolean accountNonLocked = true;
+        for (Role role : user.getRoleSet()) {
+            //角色必须是ROLE_开头，可以在数据库中设置
+            GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getCode());
+            grantedAuthorities.add(grantedAuthority);
+        }
+        //获取权限
+        for (Permission permission : user.getPermissionSet()) {
+            GrantedAuthority authority = new SimpleGrantedAuthority(permission.getCode());
+            grantedAuthorities.add(authority);
+        }
+        return new User(user.getUsername(), user.getPassword(),
+                enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, grantedAuthorities);
+
     }
 }

@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -27,7 +28,7 @@ public class UserController {
     private IUserService userService;
 
     @GetMapping("detail")
-    public ReturnMsg<UserDetailVO> findUserDetail(String username) {
+    public ReturnMsg<UserDetailVO> findUserDetail(@RequestParam String username) {
         if (StringUtils.isBlank(username)) {
             return ReturnMsg.initFailResult(MessageConstant.RS_00001);
         }

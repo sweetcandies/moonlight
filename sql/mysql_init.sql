@@ -19,6 +19,7 @@ CREATE TABLE T_USER
     MODIFIER_ID varchar(32),
     DELETED     int          not null default 1 comment '逻辑删除标识，1：存在，0：被删除，默认为1',
     STATUS      int,
+    enabled     int,
     PRIMARY KEY (ID),
     INDEX (ID),
     UNIQUE (USERNAME)

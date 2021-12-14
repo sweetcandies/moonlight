@@ -12,4 +12,9 @@ public class Constants {
     public static final Integer DELETED = 0;
     /**未被逻辑删除*/
     public static final Integer NOT_DELETED = 1;
+    /**启用*/
+    public static final Integer ENABLED = 1;
+    /**停用*/
+    public static final Integer DISABLED = 0;
+
 }

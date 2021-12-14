@@ -30,4 +30,15 @@ public class UserDetailVO {
     private Set<Role> roleSet;
 
     private Set<Permission> permissionSet;
+    /**1：启用；0：停用*/
+    private Integer enabled;
+
+    private Integer status;
+
+    public Boolean isEnable() {
+        if (null != enabled) {
+            return this.enabled.equals(1);
+        }
+        return false;
+    }
 }

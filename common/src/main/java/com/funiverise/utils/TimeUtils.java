@@ -60,4 +60,7 @@ public class TimeUtils {
     public static Long transDateToLong(Date time) {
         return time.getTime() / 1000;
     }
+
+
+
 }

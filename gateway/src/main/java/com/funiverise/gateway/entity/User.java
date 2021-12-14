@@ -42,6 +42,10 @@ public class User implements Serializable {
 
     private Integer deleted;
 
+    private Integer enabled;
+
+    private Integer status;
+
 
 
     @Override
@@ -56,6 +60,8 @@ public class User implements Serializable {
         ", updateTime=" + updateTime +
         ", creatorId=" + creatorId +
         ", modifierId=" + modifierId +
-        "}";
+        ", enabled=" + enabled +
+        ", status=" + status +
+                "}";
     }
 }
