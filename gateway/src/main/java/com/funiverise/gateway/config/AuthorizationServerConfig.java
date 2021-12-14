@@ -21,7 +21,6 @@ import org.springframework.security.oauth2.provider.error.DefaultWebResponseExce
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import javax.sql.DataSource;
 
@@ -48,13 +47,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      **/
     @Bean
     public TokenStore tokenStore() {
-        return new RedisTokenStore(connectionFactory);
+        return new com.funiverise.gateway.config.RedisTokenStore(connectionFactory);
     }
     /**
      *用来配置令牌端点(Token Endpoint)的安全约束.
      **/
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+    public void configure(AuthorizationServerSecurityConfigurer security) {
         security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()").allowFormAuthenticationForClients();;
     }
     /**
@@ -63,26 +62,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      **/
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory() // 使用in-memory存储
-                .withClient("root") // client_id   android
-                .scopes("read")
-                .secret("123@.com")  // client_secret   android
-                .authorizedGrantTypes("password", "authorization_code", "refresh_token") // 该client允许的授权类型
-                .and()
-                .withClient("webapp") // client_id
-                .scopes("read")
-                //.secret("webapp")  // client_secret
-                .authorizedGrantTypes("implicit")// 该client允许的授权类型
-                .and()
-                .withClient("browser")
-                .authorizedGrantTypes("refresh_token", "password")
-                .scopes("read");
-        //         //客户端信息通过Redis去取得验证
-//        final RedisClientDetailsServiceBuilder builder = new RedisClientDetailsServiceBuilder();
-//        clients.setBuilder(builder);
         //通过JDBC去查询数据库oauth_client_details表验证clientId信息
         clients.jdbc(this.dataSource).clients(this.clientDetails());
-//        clients.withClientDetails(clientDetails());
     }
     @Bean
     public ClientDetailsService clientDetails() {

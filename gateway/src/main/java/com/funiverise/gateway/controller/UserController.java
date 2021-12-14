@@ -1,7 +1,7 @@
 package com.funiverise.gateway.controller;
 
 
-import com.funiverise.constant.MessageConstant;
+import com.funiverise.enums.ReturnResultEnums;
 import com.funiverise.gateway.service.IUserService;
 import com.funiverise.message.ReturnMsg;
 import com.funiverise.object.vo.UserDetailVO;
@@ -30,7 +30,7 @@ public class UserController {
     @GetMapping("detail")
     public ReturnMsg<UserDetailVO> findUserDetail(@RequestParam String username) {
         if (StringUtils.isBlank(username)) {
-            return ReturnMsg.initFailResult(MessageConstant.RS_00001);
+            return ReturnMsg.initFailResult(ReturnResultEnums.R_000001);
         }
         return userService.getUserDetail(username);
     }
