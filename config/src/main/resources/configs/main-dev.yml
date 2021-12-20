@@ -46,9 +46,11 @@ spring:
         druid-stat-slowSqlMillis: 500
       #合并多个DruidDataSource的监控数据
       use-global-data-source-stat: true
+      mysql:
+        usePingMethod: false
   redis:
     enable: false
-    host: 10.100.57.128
+    host: 10.100.57.125
     port: 6379
     password: P3dbqGkZUrxUl2a
     jedis:
