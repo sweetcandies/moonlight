@@ -22,5 +22,16 @@ eureka:
   client:
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka/
-
+security:
+  oauth2:
+    client:
+      client-id: config
+      client-secret: user-secret-8888
+      user-authorization-uri: http://127.0.0.1:8090/oauth/authorize
+      access-token-uri: http://127.0.0.1:8090/oauth/token
+    resource:
+      id: config
+      user-info-uri: user-info
+    authorization:
+      check-token-access:  http://127.0.0.1:8090/oauth/check_token
 
