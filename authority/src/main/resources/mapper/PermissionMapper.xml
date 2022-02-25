@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funiverise.authority.dao.PermissionMapper">
+
+
+    <select id="selectRolePermissionsById" resultType="com.funiverise.object.pojo.Permission">
+        SELECT p.ID,p.NAME,p.CODE,p.CREATE_TIME,p.UPDATE_TIME,p.CREATOR_ID,p.MODIFIER_ID,p.DELETED
+        FROM T_PERMISSION p
+                 LEFT JOIN T_ROLE_PERMISSION up on ur.ROLE_ID = p.id and up.DELETED = 1
+                 LEFT JOIN T_ROLE r on r.ID = up.ROLE_ID and r.DELETED = 1
+        WHERE r.id in
+        <foreach collection="array" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+         and p.DELETED = 1
+    </select>
+</mapper>

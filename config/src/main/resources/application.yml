@@ -1,3 +1,12 @@
+# port
+server:
+  port: 8888
+
+# 注册到 eureka server 配置
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
 spring:
   cloud:
     config:
@@ -13,25 +22,10 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/moon?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=utf8
     username: moonlight
     password: 1NN7Eax4BeEH4UL
-# port
-server:
-  port: 8888
+  security:
+    user:
+      name: config-server
+      password: 123456
 
-# 注册到 eureka server 配置
-eureka:
-  client:
-    service-url:
-      defaultZone: http://127.0.0.1:8761/eureka/
-security:
-  oauth2:
-    client:
-      client-id: config
-      client-secret: user-secret-8888
-      user-authorization-uri: http://127.0.0.1:8090/oauth/authorize
-      access-token-uri: http://127.0.0.1:8090/oauth/token
-    resource:
-      id: config
-      user-info-uri: user-info
-    authorization:
-      check-token-access:  http://127.0.0.1:8090/oauth/check_token
+
 

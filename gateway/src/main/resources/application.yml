@@ -16,5 +16,7 @@ spring:
       discovery:
         enabled: true
         service-id: config
+      username: config-server
+      password: 123456
   config:
     import: configserver:${spring.cloud.config.uri}

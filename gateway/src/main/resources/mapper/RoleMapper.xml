@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.funiverise.authority.dao.RoleMapper">
+<mapper namespace="com.funiverise.gateway.dao.RoleMapper">
 
     <select id="selectUserRolesByUsername" resultType="com.funiverise.object.pojo.Role">
         SELECT r.ID,r.NAME,r.PARENT_ID,r.CREATE_TIME,r.UPDATE_TIME,r.CREATOR_ID,r.MODIFIER_ID,r.DELETED
