@@ -27,8 +27,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
     private RoleMapper roleMapper;
 
     @Override
-    public Set<com.funiverise.object.pojo.Role> getRoleSetByUsername(String username) {
-        Set<com.funiverise.object.pojo.Role> roles = new HashSet<>();
+    public Set<Role> getRoleSetByUsername(String username) {
+        Set<Role> roles = new HashSet<>();
         if (StringUtils.isBlank(username)) {
             return roles;
         }

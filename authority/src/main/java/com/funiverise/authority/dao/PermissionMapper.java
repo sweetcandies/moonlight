@@ -17,5 +17,5 @@ import java.util.List;
 @Mapper
 public interface PermissionMapper extends BaseMapper<Permission> {
 
-    List<com.funiverise.object.pojo.Permission> selectRolePermissionsById(String[] roleIds);
+    List<Permission> selectRolePermissionsById(String[] roleIds);
 }

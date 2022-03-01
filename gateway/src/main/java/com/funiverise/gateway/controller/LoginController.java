@@ -1,12 +1,15 @@
 package com.funiverise.gateway.controller;
 
-import com.funiverise.gateway.entity.User;
-import com.funiverise.gateway.service.IUserService;
 import com.funiverise.constant.ApplicationConstant;
 import com.funiverise.enums.ReturnResultEnums;
+import com.funiverise.gateway.entity.User;
+import com.funiverise.gateway.service.IUserService;
 import com.funiverise.message.ReturnMsg;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -49,6 +52,16 @@ public class LoginController {
             return ReturnMsg.initFailResult(ReturnResultEnums.R_000005);
         }
         return service.loginByPassword(username,password,app);
+    }
+
+    @GetMapping(value = "get")
+    //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_administrator')")
+    public Object get(Authentication authentication){
+        //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        authentication.getCredentials();
+        OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails)authentication.getDetails();
+        return details.getTokenValue();
     }
 
 }

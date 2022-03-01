@@ -7,10 +7,7 @@ import com.funiverise.message.ReturnMsg;
 import com.funiverise.object.vo.UserDetailVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -34,6 +31,17 @@ public class UserController {
         }
         return userService.getUserDetail(username);
     }
+
+    /**
+     * 用户注册
+     * @param detailVO  用户详情VO
+     * @return  是否注册成功
+     */
+    @PostMapping("register")
+    public ReturnMsg<String> registerUser(UserDetailVO detailVO) {
+        return userService.addNewUser(detailVO);
+    }
+
 
 }
 

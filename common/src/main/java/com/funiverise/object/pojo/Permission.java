@@ -1,9 +1,7 @@
 package com.funiverise.object.pojo;
 
-import lombok.Builder;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -14,11 +12,9 @@ import java.time.LocalDateTime;
  * @author Funny
  * @since 2021-12-07
  */
-@Builder
 @Data
-public class Permission implements Serializable {
+public class Permission {
 
-    private static final long serialVersionUID = 1L;
 
     private String id;
 
@@ -32,6 +28,6 @@ public class Permission implements Serializable {
 
     private String creatorId;
 
-    private String updatorId;
+    private String modifierId;
 
 }

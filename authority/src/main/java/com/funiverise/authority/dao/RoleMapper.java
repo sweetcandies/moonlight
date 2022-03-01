@@ -17,5 +17,5 @@ import java.util.List;
 @Mapper
 public interface RoleMapper extends BaseMapper<Role> {
 
-    List<com.funiverise.object.pojo.Role> selectUserRolesByUsername(String username);
+    List<Role> selectUserRolesByUsername(String username);
 }

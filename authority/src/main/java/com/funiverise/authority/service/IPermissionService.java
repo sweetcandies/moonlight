@@ -15,5 +15,5 @@ import java.util.Set;
  */
 public interface IPermissionService extends IService<Permission> {
 
-    Set<com.funiverise.object.pojo.Permission> getPermissionsByRoleId(String[] roleId);
+    Set<Permission> getPermissionsByRoleId(String[] roleId);
 }

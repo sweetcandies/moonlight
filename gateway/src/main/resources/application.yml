@@ -20,3 +20,15 @@ spring:
       password: 123456
   config:
     import: configserver:${spring.cloud.config.uri}
+security:
+  oauth2:
+    client:
+      client-id: user-client
+      client-secret: user-secret-8888
+      user-authorization-uri: http://localhost:8087/oauth/authorize
+      access-token-uri: http://localhost:8087/oauth/token
+    resource:
+      id: user-client
+      user-info-uri: user-info
+    authorization:
+      check-token-access: http://localhost:8087/oauth/check_token

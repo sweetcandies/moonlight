@@ -1,10 +1,8 @@
 package com.funiverise.object.pojo;
 
-import lombok.Builder;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -16,10 +14,8 @@ import java.time.LocalDateTime;
  * @since 2021-12-07
  */
 @Data
-@Builder
-public class Role implements Serializable {
+public class Role {
 
-    private static final long serialVersionUID = 1L;
 
     private String id;
 
@@ -37,6 +33,8 @@ public class Role implements Serializable {
 
     private String modifierId;
 
+
+    public Role () {}
     /**
      * @description: 重写code获取方法， 从而使role前自动带有Role标识
      * @param: []
@@ -50,4 +48,6 @@ public class Role implements Serializable {
         }
         return this.code;
     }
+
+
 }

@@ -1,7 +1,6 @@
 package com.funiverise.authority.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -16,7 +15,6 @@ import java.time.LocalDateTime;
  * @since 2021-12-07
  */
 @TableName("t_role")
-@Builder
 @Data
 public class Role implements Serializable {
 
@@ -53,4 +51,6 @@ public class Role implements Serializable {
         ", modifierId=" + modifierId +
         "}";
     }
+
+
 }

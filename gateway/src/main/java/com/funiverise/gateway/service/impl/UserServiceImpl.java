@@ -3,25 +3,23 @@ package com.funiverise.gateway.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.funiverise.constant.Constants;
+import com.funiverise.enums.ReturnResultEnums;
 import com.funiverise.gateway.dao.UserMapper;
 import com.funiverise.gateway.entity.User;
 import com.funiverise.gateway.service.IPermissionService;
 import com.funiverise.gateway.service.IRoleService;
 import com.funiverise.gateway.service.IUserService;
-import com.funiverise.constant.Constants;
-import com.funiverise.enums.ReturnResultEnums;
 import com.funiverise.message.ReturnMsg;
 import com.funiverise.object.vo.UserDetailVO;
 import com.funiverise.utils.BeanUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.stereotype.Service;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,12 +42,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Autowired
     private IPermissionService permissionService;
-
-    @Autowired
-    private TokenEndpoint tokenEndpoint;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
 
     private static final String CLIENT_ID = "user-client";
@@ -108,14 +100,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         parameters.put("client_id",CLIENT_ID);
         parameters.put("client_secret", CLIENT_SECRET);
         parameters.put("scope","all");
-        try {
-            ResponseEntity<OAuth2AccessToken> response =  tokenEndpoint.postAccessToken(null, parameters);
-            if (response.getBody() != null) {
-                System.out.println(response.getBody().getValue());
-            }
-        } catch (HttpRequestMethodNotSupportedException e) {
-            e.printStackTrace();
-        }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        authentication.getCredentials();
+        OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails)authentication.getDetails();
         return null;
     }
 

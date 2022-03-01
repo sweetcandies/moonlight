@@ -20,3 +20,11 @@ spring:
       password: 123456
   config:
     import: configserver:${spring.cloud.config.uri}
+security:
+  oauth2:
+    client:
+      client-id: test
+      client-secret: test1234
+logging:
+  level:
+    com.funiverise.authority : debug

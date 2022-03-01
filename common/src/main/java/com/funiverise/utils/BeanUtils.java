@@ -1,6 +1,8 @@
 package com.funiverise.utils;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +40,27 @@ public class BeanUtils {
     }
 
     /**
+     * 将T与E相同的属性copy到类型E的对象上
+     * @param source
+     * @param clazz
+     * @param <T>
+     * @param <E>
+     * @return  返回E类型的对象
+     */
+    public static <T,E> E copyProperties(T source,Class<E> clazz)  {
+        try {
+            Constructor<E> cons =  clazz.getConstructor();
+            E obj = cons.newInstance();
+            copyProperties(source,obj,new String[0]);
+            return obj;
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /**
      * @description: 将source与target的同名同类型属性，从source复制到target，两种对象可以是不同类型
      * @param: [source, target, ignoreField]
      * @return: void
@@ -58,7 +81,10 @@ public class BeanUtils {
 
             if (Arrays.stream(sourceFields).anyMatch(s -> s.getName().equals(t.getName()) &&
                     s.getGenericType().equals(t.getGenericType()) && s.getModifiers() == t.getModifiers() )) {
-                t.set(target,source.getClass().getDeclaredField(t.getName()));
+                t.setAccessible(true);
+                Field sourceField = source.getClass().getDeclaredField(t.getName());
+                sourceField.setAccessible(true);
+                t.set(target,sourceField.get(source));
             }
         }
     }

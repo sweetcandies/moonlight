@@ -15,5 +15,5 @@ import java.util.Set;
  */
 public interface IRoleService extends IService<Role> {
 
-    Set<com.funiverise.object.pojo.Role> getRoleSetByUsername(String username);
+    Set<Role> getRoleSetByUsername(String username);
 }

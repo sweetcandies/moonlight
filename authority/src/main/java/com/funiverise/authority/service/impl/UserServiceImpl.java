@@ -4,6 +4,8 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.funiverise.authority.dao.UserMapper;
+import com.funiverise.authority.entity.Permission;
+import com.funiverise.authority.entity.Role;
 import com.funiverise.authority.entity.User;
 import com.funiverise.authority.service.IPermissionService;
 import com.funiverise.authority.service.IRoleService;
@@ -26,6 +28,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -64,18 +67,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (null == user) {
             return ReturnMsg.initFailResult(ReturnResultEnums.R_000002);
         }
-        Set<com.funiverise.object.pojo.Role> roles = roleService.getRoleSetByUsername(username);
+        Set<Role> roles = roleService.getRoleSetByUsername(username);
         if (CollectionUtil.isEmpty(roles)) {
             log.debug("[用户角色为空]");
             return ReturnMsg.initFailResult(ReturnResultEnums.R_000003);
         }
-        Set<com.funiverise.object.pojo.Permission> permissions = permissionService.getPermissionsByRoleId(roles.stream().map(com.funiverise.object.pojo.Role::getId).toArray(String[]::new));
+        Set<Permission> permissions = permissionService.getPermissionsByRoleId(roles.stream().map(Role::getId).toArray(String[]::new));
         if (CollectionUtil.isEmpty(permissions)) {
             log.debug("[用户角色的权限为空]");
             return ReturnMsg.initFailResult(ReturnResultEnums.R_000003);
         }
         ReturnMsg<UserDetailVO> returnMsg = new ReturnMsg<>(true);
-        UserDetailVO userDetailVO = UserDetailVO.builder().roleSet(roles).permissionSet(permissions).build();
+
+        Set<com.funiverise.object.pojo.Role> roleSet = roles.stream().map(role ->
+                BeanUtils.copyProperties(role, com.funiverise.object.pojo.Role.class)).collect(Collectors.toSet());
+        Set<com.funiverise.object.pojo.Permission> permissionSet = permissions.stream().map(permission ->
+                BeanUtils.copyProperties(permission, com.funiverise.object.pojo.Permission.class)).collect(Collectors.toSet());
+
+        UserDetailVO userDetailVO = UserDetailVO.builder().roleSet(roleSet).permissionSet(permissionSet).build();
         try {
             BeanUtils.copyProperties(user,userDetailVO,new String[0]);
         } catch (NoSuchFieldException | IllegalAccessException e) {
@@ -116,6 +125,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         } catch (HttpRequestMethodNotSupportedException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    /**
+     * 新增用户的通用方法
+     * @param detailVO
+     * @return
+     */
+    @Override
+    public ReturnMsg<String> addNewUser(UserDetailVO detailVO) {
+        ReturnMsg<String> returnMsg = new ReturnMsg<>(true);
+        log.info("用户注册");
+
         return null;
     }
 

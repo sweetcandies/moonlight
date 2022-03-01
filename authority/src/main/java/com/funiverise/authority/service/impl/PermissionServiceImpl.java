@@ -27,12 +27,11 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
 
 
     @Override
-    public Set<com.funiverise.object.pojo.Permission> getPermissionsByRoleId(String[] roleIds) {
-        Set<com.funiverise.object.pojo.Permission> permissions = new HashSet<>();
-        if (null == roleIds || roleIds.length == 0) {
-            return permissions;
+    public Set<Permission> getPermissionsByRoleId(String[] roleIds) {
+        Set<Permission> permissions = new HashSet<>();
+        if (null != roleIds && roleIds.length > 0) {
+            Optional.ofNullable(permissionMapper.selectRolePermissionsById(roleIds)).ifPresent(permissions::addAll);
         }
-        Optional.ofNullable(permissionMapper.selectRolePermissionsById(roleIds)).ifPresent(permissions::addAll);
         return permissions;
     }
 }
