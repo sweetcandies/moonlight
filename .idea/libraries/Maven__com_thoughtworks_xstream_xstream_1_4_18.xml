@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Maven: com.thoughtworks.xstream:xstream:1.4.18">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/com/thoughtworks/xstream/xstream/1.4.18/xstream-1.4.18.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../software/apache-maven-3.8.3/repository/com/thoughtworks/xstream/xstream/1.4.18/xstream-1.4.18.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/com/thoughtworks/xstream/xstream/1.4.18/xstream-1.4.18-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../software/apache-maven-3.8.3/repository/com/thoughtworks/xstream/xstream/1.4.18/xstream-1.4.18-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/com/thoughtworks/xstream/xstream/1.4.18/xstream-1.4.18-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../software/apache-maven-3.8.3/repository/com/thoughtworks/xstream/xstream/1.4.18/xstream-1.4.18-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

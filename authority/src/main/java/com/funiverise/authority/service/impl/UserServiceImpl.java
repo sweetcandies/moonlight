@@ -21,10 +21,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.ClientDetails;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.stereotype.Service;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -53,6 +56,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private ClientDetailsService clientDetailsService;
 
 
     private static final String CLIENT_ID = "user-client";
@@ -118,10 +123,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         parameters.put("client_secret", CLIENT_SECRET);
         parameters.put("scope","all");
         try {
-            ResponseEntity<OAuth2AccessToken> response =  tokenEndpoint.postAccessToken(null, parameters);
-            if (response.getBody() != null) {
-                System.out.println(response.getBody().getValue());
-            }
+            ClientDetails clients = clientDetailsService.loadClientByClientId(CLIENT_ID);
+            Principal principal = (Principal) clients;
+            ResponseEntity<OAuth2AccessToken> response =  tokenEndpoint.postAccessToken(principal, parameters);
+
         } catch (HttpRequestMethodNotSupportedException e) {
             e.printStackTrace();
         }

@@ -3,6 +3,7 @@ package com.funiverise.gateway.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.funiverise.api.auth.AuthorityProvider;
 import com.funiverise.constant.Constants;
 import com.funiverise.enums.ReturnResultEnums;
 import com.funiverise.gateway.dao.UserMapper;
@@ -16,13 +17,12 @@ import com.funiverise.utils.BeanUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -42,6 +42,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Autowired
     private IPermissionService permissionService;
+
+    @Autowired
+    private AuthorityProvider authorityProvider;
 
 
     private static final String CLIENT_ID = "user-client";
@@ -95,16 +98,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public ReturnMsg<String> loginByPassword(String username, String password, String app) {
-        Map<String,String> parameters = new HashMap<>();
-        parameters.put("grant_type","password");
-        parameters.put("client_id",CLIENT_ID);
-        parameters.put("client_secret", CLIENT_SECRET);
-        parameters.put("scope","all");
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        authentication.getCredentials();
-        OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails)authentication.getDetails();
+
+        MultiValueMap<String,String> headers = new LinkedMultiValueMap<>();
+        headers.add("Content-Type","multipart/form-data");
+        headers.add("Authorization", "dXNlci1jbGllbnQ6dXNlci1zZWNyZXQtODg4OA==");
+        MultiValueMap<String,String> body = new LinkedMultiValueMap<>();
+        body.add("username",username);
+        body.add("password",password);
+        body.add("grant_type","password");
+
+        ResponseEntity<OAuth2AccessToken> token =  (ResponseEntity<OAuth2AccessToken>) authorityProvider.postAccessToken(body,headers);
+        System.out.println(token.getBody().getValue());
+
+
         return null;
     }
+
 
 
 }
