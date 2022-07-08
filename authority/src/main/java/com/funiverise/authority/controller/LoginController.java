@@ -2,7 +2,6 @@ package com.funiverise.authority.controller;
 
 import com.funiverise.authority.entity.User;
 import com.funiverise.authority.service.IUserService;
-import com.funiverise.constant.ApplicationConstant;
 import com.funiverise.enums.ReturnResultEnums;
 import com.funiverise.message.ReturnMsg;
 import org.apache.commons.lang3.StringUtils;
@@ -41,14 +40,12 @@ public class LoginController {
      */
     @PostMapping("login")
     @ResponseBody
-    public ReturnMsg<String> loginByPassword(String username, String password, String app) {
-        if (StringUtils.isBlank(app)) {
-            app = ApplicationConstant.ADMIN;
-        }
-        if (StringUtils.isNoneBlank(username,password)) {
+    public ReturnMsg<String> loginByPassword(String username, String password) {
+
+        if (StringUtils.isAnyBlank(username,password)) {
             return ReturnMsg.initFailResult(ReturnResultEnums.R_000005);
         }
-        return service.loginByPassword(username,password,app);
+        return service.loginByPassword(username,password);
     }
 
 }

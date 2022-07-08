@@ -2,6 +2,7 @@ package com.funiverise.utils;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,7 +26,7 @@ public class TimeUtils {
         if (null == time) {
             throw new NullPointerException("时间对象不可为空");
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern).withZone(ZoneId.systemDefault());
         if (time instanceof Date) {
             return formatter.format(((Date) time).toInstant());
         } else if (time instanceof Calendar) {
@@ -60,6 +61,7 @@ public class TimeUtils {
     public static Long transDateToLong(Date time) {
         return time.getTime() / 1000;
     }
+
 
 
 

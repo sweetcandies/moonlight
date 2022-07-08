@@ -6,8 +6,6 @@ import com.funiverise.utils.TimeUtils;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalTime;
-
 
 /**
  * @author Funny
@@ -33,14 +31,14 @@ public class ReturnMsg<T> {
 
     public ReturnMsg(Boolean hasError) {
         this.hasError = hasError;
-        this.time = TimeUtils.getFormatTime(LocalTime.now(), TimeFormatConstant.YYYY_MM_DD_LONG);
+        this.time = TimeUtils.getFormatTime(System.currentTimeMillis(), TimeFormatConstant.YYYY_MM_DD_LONG);
     }
 
     public ReturnMsg(String code, String message) {
         this.code = code;
         this.message = message;
         this.hasError = false;
-        this.time = TimeUtils.getFormatTime(LocalTime.now(), TimeFormatConstant.YYYY_MM_DD_LONG);
+        this.time = TimeUtils.getFormatTime(System.currentTimeMillis(), TimeFormatConstant.YYYY_MM_DD_LONG);
     }
 
     public static <T> ReturnMsg<T> initSuccessResult(String message) {

@@ -138,5 +138,13 @@ CREATE TABLE `oauth_client_details`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
+CREATE TABLE moon.on_line (
+      id varchar(100) NOT NULL,
+      CONSTRAINT on_line_pk PRIMARY KEY (id)
+)  ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_bin;
+
+
 INSERT INTO moon.oauth_client_details (client_id,resource_ids,client_secret,`scope`,authorized_grant_types,web_server_redirect_uri,authorities,access_token_validity,refresh_token_validity,additional_information,autoapprove) VALUES
 ('user-client','','user-client-888','all',NULL,NULL,NULL,NULL,NULL,NULL,NULL);

@@ -50,9 +50,9 @@ spring:
         usePingMethod: false
   redis:
     enable: false
-    host: 10.100.57.125
+    host: 127.0.0.1
     port: 6379
-    password: P3dbqGkZUrxUl2a
+    password:
     jedis:
       pool:
         max-active: 8

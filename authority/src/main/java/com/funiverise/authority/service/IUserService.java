@@ -19,7 +19,7 @@ public interface IUserService extends IService<User> {
 
     User getUserByUsername(String username);
 
-    ReturnMsg<String> loginByPassword(String username, String password, String app);
+    ReturnMsg<String> loginByPassword(String username, String password);
 
     ReturnMsg<String> addNewUser(UserDetailVO detailVO);
 }

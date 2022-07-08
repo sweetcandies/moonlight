@@ -20,8 +20,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.stereotype.Service;
@@ -116,15 +116,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public ReturnMsg<String> loginByPassword(String username, String password, String app) {
+    public ReturnMsg<String> loginByPassword(String username, String password) {
         Map<String,String> parameters = new HashMap<>();
         parameters.put("grant_type","password");
         parameters.put("client_id",CLIENT_ID);
         parameters.put("client_secret", CLIENT_SECRET);
         parameters.put("scope","all");
         try {
-            ClientDetails clients = clientDetailsService.loadClientByClientId(CLIENT_ID);
-            Principal principal = (Principal) clients;
+            Principal principal = SecurityContextHolder.getContext().getAuthentication();
             ResponseEntity<OAuth2AccessToken> response =  tokenEndpoint.postAccessToken(principal, parameters);
 
         } catch (HttpRequestMethodNotSupportedException e) {
