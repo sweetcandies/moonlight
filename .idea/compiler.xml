@@ -7,29 +7,23 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="common" />
-        <module name="config" />
-        <module name="gateway" />
-        <module name="register" />
-        <module name="authority" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="authority" target="1.8" />
-      <module name="common" target="8" />
-      <module name="config" target="1.8" />
-      <module name="gateway" target="1.8" />
-      <module name="moonlight" target="1.8" />
-      <module name="register" target="1.8" />
+      <module name="authority" target="1.5" />
+      <module name="common" target="21" />
+      <module name="config" target="1.5" />
+      <module name="gateway" target="1.5" />
+      <module name="register" target="1.5" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="authority" options="-parameters" />
-      <module name="common" options="-parameters" />
-      <module name="config" options="-parameters" />
-      <module name="gateway" options="-parameters" />
-      <module name="register" options="-parameters" />
+      <module name="authority" options="" />
+      <module name="common" options="" />
+      <module name="config" options="" />
+      <module name="gateway" options="" />
+      <module name="register" options="" />
     </option>
   </component>
 </project>

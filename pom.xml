@@ -3,79 +3,112 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
-
 	<groupId>com.funiverise</groupId>
 	<artifactId>moonlight</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-
+	<version>${revision}</version>
 	<name>moonlight</name>
 	<packaging>pom</packaging>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.5.6</version>
-		<relativePath/> 
-	</parent>
-
+	<modules>
+	</modules>
 
 	<properties>
-		<java.version>1.8</java.version>
+		<revision>1.0.0</revision>
+		<java.version>21</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<spring-cloud.version>2020.0.4</spring-cloud.version>
-		<mysql.version>8.0.27</mysql.version>
-		<mybatis-plus.version>3.4.3</mybatis-plus.version>
-		<junit.version>4.12</junit.version>
-		<common-lang3.version>3.12.0</common-lang3.version>
-		<hutool-all.version>5.7.16</hutool-all.version>
-		<druid.version>1.2.8</druid.version>
-		<moonlight.version>0.0.1-SNAPSHOT</moonlight.version>
-	</properties>
-	
-	<dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+		<flatten.maven.plugin.version>1.5.0</flatten.maven.plugin.version>
+		<maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+		<maven.jar.plugin.version>3.3.0</maven.jar.plugin.version>
+		<maven.resources.plugin.version>3.1.0</maven.resources.plugin.version>
+		<maven.clean.plugin.version>3.3.1</maven.clean.plugin.version>
+		<lombok.mapstruct.binding.version>0.2.0</lombok.mapstruct.binding.version>
+		<lombok.version>1.18.30</lombok.version>
 
-    </dependencies>
+		<!--spring 相关-->
+		<spring.boot.version>3.4.1</spring.boot.version>
+		<spring.cloud.version>2024.0.0</spring.cloud.version>
+		<spring.cloud.alibaba.version>2021.0.4.0</spring.cloud.alibaba.version>
+		<spring.cloud.oauth2.version>2.2.5.RELEASE</spring.cloud.oauth2.version>
+
+
+
+		<!-- MQ 相关 -->
+		<rocketmq.version>2.2.2</rocketmq.version>
+		<!-- DB 相关 -->
+		<mysql.version>8.0.33</mysql.version>
+		<mybatis-plus.version>3.5.3.1</mybatis-plus.version>
+		<mybatis-plus-generator.version>3.5.3.1</mybatis-plus-generator.version>
+		<redisson.version>3.17.7</redisson.version>
+		<druid.version>1.2.9</druid.version>
+
+		<!--工具 相关-->
+		<mapstruct.version>1.5.3.Final</mapstruct.version>
+		<fastjson.version>1.2.83</fastjson.version>
+		<commons-collections.version>3.2.2</commons-collections.version>
+		<okhttp.version>4.9.0</okhttp.version>
+		<liquibase-core.version>4.9.1</liquibase-core.version>
+		<commons-net.version>3.9.0</commons-net.version>
+		<guava.version>31.1-jre</guava.version>
+		<!--日志-->
+		<slf4j.api.version>1.7.26</slf4j.api.version>
+		<logback.version>1.2.3</logback.version>
+		<!-- docker相关版本设定 -->
+		<!--指定本次docker打包的版本-->
+		<docker.tag>V1.0</docker.tag>
+		<docker.server.version>arm</docker.server.version>
+		<docker.file.name>Dockerfile</docker.file.name>
+		<docker.plugin.version>0.35.0</docker.plugin.version>
+		<docker.host>http://192.168.204.3:2375</docker.host>
+		<docker.registry>192.168.204.3:50000</docker.registry>
+		<mysql.version>8.0.33</mysql.version>
+		<!--对应dockerfile后缀-->
+		<docker.framework>arm</docker.framework>
+	</properties>
 
     <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
+		<dependencies>
+			<!-- 统一依赖管理 -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring.boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring.cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.alibaba.cloud</groupId>
+				<artifactId>spring-cloud-alibaba-dependencies</artifactId>
+				<version>${spring.cloud.alibaba.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<!-- 用于生成自定义的 Spring @ConfigurationProperties 配置类的说明文件 -->
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-configuration-processor</artifactId>
+				<version>${spring.boot.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-starter-oauth2</artifactId>
-				<version>2.2.5.RELEASE</version>
+				<version>${spring.cloud.oauth2.version}</version>
 			</dependency>
+			<!-- DB 相关 -->
 			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-starter-openfeign</artifactId>
-				<version>2.2.5.RELEASE</version>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid-spring-boot-starter</artifactId>
+				<version>${druid.version}</version>
 			</dependency>
 
-
-
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>${junit.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-lang3</artifactId>
-				<version>${common-lang3.version}</version>
-			</dependency>
 			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
@@ -85,53 +118,258 @@
 				<groupId>com.baomidou</groupId>
 				<artifactId>mybatis-plus-boot-starter</artifactId>
 				<version>${mybatis-plus.version}</version>
-				<exclusions>
-					<exclusion>
-						<artifactId>tomcat-jdbc</artifactId>
-						<groupId>org.apache.tomcat</groupId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>cn.hutool</groupId>
-				<artifactId>hutool-all</artifactId>
-				<version>${hutool-all.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.baomidou</groupId>
-				<artifactId>mybatis-plus-generator</artifactId>
-				<version>3.5.1</version>
+				<artifactId>mybatis-plus-generator</artifactId> <!-- 代码生成器，使用它解析表结构 -->
+				<version>${mybatis-plus-generator.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.redisson</groupId>
+				<artifactId>redisson-spring-boot-starter</artifactId>
+				<version>${redisson.version}</version>
 			</dependency>
 
+			<!-- 消息队列相关 -->
+			<!-- MQ 相关 -->
+			<dependency>
+				<groupId>org.apache.rocketmq</groupId>
+				<artifactId>rocketmq-spring-boot-starter</artifactId>
+				<version>${rocketmq.version}</version>
+			</dependency>
+
+
+			<!--工具 相关-->
+			<dependency>
+				<groupId>org.mapstruct</groupId>
+				<artifactId>mapstruct</artifactId> <!-- use mapstruct-jdk8 for Java 8 or higher -->
+				<version>${mapstruct.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mapstruct</groupId>
+				<artifactId>mapstruct-jdk8</artifactId>
+				<version>${mapstruct.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mapstruct</groupId>
+				<artifactId>mapstruct-processor</artifactId>
+				<version>${mapstruct.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>com.alibaba</groupId>
-				<artifactId>druid-spring-boot-starter</artifactId>
-				<version>${druid.version}</version>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>com.funiverise</groupId>
-				<artifactId>common</artifactId>
-				<version>${moonlight.version}</version>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>commons-collections</groupId>
+				<artifactId>commons-collections</artifactId>
+				<version>${commons-collections.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-net</groupId>
+				<artifactId>commons-net</artifactId>
+				<version>${commons-net.version}</version>
+			</dependency>
+			<!--日志-->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j.api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-core</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-core</artifactId>
+				<version>${liquibase-core.version}</version>
+			</dependency>
+
 
 		</dependencies>
     </dependencyManagement>
 
-	
+	<repositories>
+		<repository>
+			<id>nexus</id>
+			<url>https://maven.aliyun.com/repository/public</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
 	<build>
+		<finalName>${project.name}</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
 		<plugins>
+			<!-- 添加flatten-maven-plugin插件 -->
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>flatten-maven-plugin</artifactId>
+				<version>${flatten.maven.plugin.version}</version>
+				<inherited>true</inherited>
+				<executions>
+					<execution>
+						<id>flatten</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>flatten</goal>
+						</goals>
+						<configuration>
+							<!-- 避免IDE将 .flattened-pom.xml 自动识别为功能模块 -->
+							<updatePomFile>true</updatePomFile>
+							<flattenMode>resolveCiFriendliesOnly</flattenMode>
+							<pomElements>
+								<parent>expand</parent>
+								<distributionManagement>remove</distributionManagement>
+								<repositories>remove</repositories>
+							</pomElements>
+						</configuration>
+					</execution>
+					<execution>
+						<id>flatten.clean</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!-- spring-boot-maven 插件-->
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<configuration>
+						<finalName>${project.build.finalName}</finalName>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>repackage</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<!-- docker插件 -->
+				<plugin>
+					<groupId>io.fabric8</groupId>
+					<artifactId>docker-maven-plugin</artifactId>
+					<version>${docker.plugin.version}</version>
+					<configuration>
+						<!-- Docker Remote Api-->
+						<dockerHost>${docker.host}</dockerHost>
+						<!-- Docker 镜像私服-->
+						<registry>${docker.registry}</registry>
+						<images>
+							<image>
+								<name>${docker.registry}/zn01b-${docker.server.version}/${project.name}:${docker.tag}</name>
+								<build>
+									<!-- DockerFile 文件路径-->
+									<dockerFile>${project.basedir}/${docker.file.name}_${docker.server.version}</dockerFile>
+									<args>
+										<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+										<PROFILE>test</PROFILE>
+									</args>
+								</build>
+							</image>
+						</images>
+					</configuration>
+				</plugin>
+				<!-- 该插件主要用于将项目的源码同jar包一起打包安装，方便使用者查看代码的逻辑和注释-->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>3.2.1</version>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>jar-no-fork</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<includePom>true</includePom>
+						<excludeResources>true</excludeResources>
+						<attach>true</attach>
+					</configuration>
+				</plugin>
+				<!--编译插件-->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven.compiler.plugin.version}</version>
+					<configuration>
+						<source>8</source>
+						<target>8</target>
+						<encoding>UTF-8</encoding>
+						<annotationProcessorPaths>
+							<path>
+								<groupId>org.projectlombok</groupId>
+								<artifactId>lombok</artifactId>
+								<version>${lombok.version}</version>
+							</path>
+							<path>
+								<groupId>org.projectlombok</groupId>
+								<artifactId>lombok-mapstruct-binding</artifactId>
+								<!-- 如果是0.1.0 有可能出现生成了MapStruct的实现类，但该类只创建了对象，没有进行赋值 -->
+								<version>${lombok.mapstruct.binding.version}</version>
+							</path>
+							<path>
+								<groupId>org.mapstruct</groupId>
+								<artifactId>mapstruct-processor</artifactId>
+								<version>${mapstruct.version}</version>
+							</path>
+						</annotationProcessorPaths>
+					</configuration>
+				</plugin>
+				<!--jar包插件-->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>${maven.jar.plugin.version}</version>
+				</plugin>
+				<!--资源处理插件-->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>${maven.resources.plugin.version}</version>
+				</plugin>
+				<!--清理插件-->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>${maven.clean.plugin.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	  </build>
-	<modules>
-		<module>register</module>
-		<module>config</module>
-		<module>gateway</module>
-        <module>common</module>
-        <module>authority</module>
-    </modules>
+
 </project>
