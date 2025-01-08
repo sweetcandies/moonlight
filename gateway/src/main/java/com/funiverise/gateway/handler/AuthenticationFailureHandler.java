@@ -2,9 +2,8 @@ package com.funiverise.gateway.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.guideir.common.base.GDCommonResult;
-import com.guideir.common.base.GDRetCode;
-import com.guideir.gateway.log.GdFailureLogHandler;
+import com.funiverise.common.base.CommonResult;
+import com.funiverise.common.enums.RetCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
@@ -28,7 +27,7 @@ public class AuthenticationFailureHandler implements ServerAuthenticationFailure
         ServerHttpResponse response = webFilterExchange.getExchange().getResponse();
         log.error("认证失败：{}", e.getMessage(),e);
 
-        GDCommonResult<Object> result =GDCommonResult.error(GDRetCode.NO_AUTH);
+        CommonResult<Object> result = CommonResult.error(RetCode.NO_AUTH);
         byte[] value = new byte[0];
         try {
             value = objectMapper.writeValueAsBytes(result);
@@ -38,8 +37,6 @@ public class AuthenticationFailureHandler implements ServerAuthenticationFailure
         response.getHeaders().add("Content-Type", MediaType.APPLICATION_JSON.toString());
         response.setStatusCode(HttpStatus.OK);
         DataBuffer wrap = response.bufferFactory().wrap(value);
-        // 请求失败的日志也记录一下
-        GdFailureLogHandler.recordLog(webFilterExchange.getExchange());
         return response.writeWith(Mono.just(wrap));
     }
 }

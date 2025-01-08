@@ -12,9 +12,9 @@ import org.springframework.web.server.ServerWebExchangeDecorator;
  */
 public class PayloadServerWebExchangeDecorator extends ServerWebExchangeDecorator {
 
-    private PartnerServerHttpRequestDecorator requestDecorator;
+    private final PartnerServerHttpRequestDecorator requestDecorator;
 
-    private PartnerServerHttpResponseDecorator responseDecorator;
+    private final PartnerServerHttpResponseDecorator responseDecorator;
 
     public PayloadServerWebExchangeDecorator(ServerWebExchange delegate) {
         super(delegate);

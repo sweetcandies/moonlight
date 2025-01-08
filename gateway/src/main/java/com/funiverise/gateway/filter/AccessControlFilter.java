@@ -2,15 +2,6 @@ package com.funiverise.gateway.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.guideir.common.base.GDCommonResult;
-import com.guideir.common.base.GDRetCode;
-import com.guideir.common.rocketmq.client.GDMqTemplate;
-import com.guideir.common.rocketmq.constant.RocketMqSysConstant;
-import com.guideir.common.rocketmq.domain.GDMqMessageDTO;
-import com.guideir.common.rocketmq.domain.GDRocketMqEntityMessage;
-import com.guideir.common.util.DateUtil;
-import com.guideir.common.util.GDSnowFlakeGenerator;
-import com.guideir.gateway.handler.GlobalExceptionHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +18,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Date;
@@ -42,8 +32,6 @@ import java.util.Date;
 public class AccessControlFilter implements GlobalFilter, Ordered {
 
 
-    @Resource
-    private GDMqTemplate mqTemplate;
 
     private static final Logger log = LoggerFactory.getLogger(AccessControlFilter.class);
 
@@ -84,26 +72,7 @@ public class AccessControlFilter implements GlobalFilter, Ordered {
                         if (StringUtils.isBlank(startTimeStr) && StringUtils.isBlank(endTimeStr)) {
                             return chain.filter(exchange);
                         }
-                        Date validStartTime = DateUtil.string2Date(startTimeStr, DateUtil.yyyyMMddHHmmss);
-                        Date validEndTime = DateUtil.string2Date(endTimeStr, DateUtil.yyyyMMddHHmmss);
-                        String username = additionalInfo.getString("username");
-                        // 用户是否处于有效期内
-                        if (now.before(validStartTime) || now.after(validEndTime)) {
-                            JSONObject message = new JSONObject();
-                            message.put("usernames", Collections.singletonList(username));
-                            message.put("reason", GDRetCode.USER_EXPIRED.getMessage());
-                            GDRocketMqEntityMessage rocketMqEntityMessage = new GDRocketMqEntityMessage();
-                            rocketMqEntityMessage.setData(message.toJSONString());
-                            rocketMqEntityMessage.setKey(username + "_" + GDSnowFlakeGenerator.getNextId() );
-                            rocketMqEntityMessage.setRetryCount(1);
-                            rocketMqEntityMessage.setRpcInterface(false);
-                            rocketMqEntityMessage.setSendTime(LocalDateTime.now());
-                            GDMqMessageDTO mqMessageDTO = new GDMqMessageDTO();
-                            mqMessageDTO.setTopic(RocketMqSysConstant.USER_LOGOUT_TOPIC);
-                            mqMessageDTO.setPayload(rocketMqEntityMessage);
-                            mqTemplate.asyncSendProducer(mqMessageDTO);
-                            return GlobalExceptionHandler.resolveGenericException(exchange, GDCommonResult.error(GDRetCode.USER_EXPIRED));
-                        }
+
                     } catch (Exception e) {
                         log.error("用户登出失败 ", e);
                         return Mono.error(e);

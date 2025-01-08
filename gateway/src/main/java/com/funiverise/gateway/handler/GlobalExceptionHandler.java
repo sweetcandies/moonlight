@@ -2,8 +2,8 @@ package com.funiverise.gateway.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.guideir.common.base.GDCommonResult;
-import com.guideir.common.base.GDRetCode;
+import com.funiverise.common.base.CommonResult;
+import com.funiverise.common.enums.RetCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.core.annotation.Order;
@@ -41,7 +41,7 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
         }
 
         // 转换成 GDCommonResult
-        GDCommonResult<?> result;
+        CommonResult<?> result;
         if (ex instanceof ResponseStatusException) {
             result = responseStatusExceptionHandler(exchange, (ResponseStatusException) ex);
         } else {
@@ -89,25 +89,25 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
     /**
      * 处理 Spring Cloud Gateway 默认抛出的 ResponseStatusException 异常
      */
-    private GDCommonResult<?> responseStatusExceptionHandler(ServerWebExchange exchange,
+    private CommonResult<?> responseStatusExceptionHandler(ServerWebExchange exchange,
                                                              ResponseStatusException ex) {
         // TODO 这里要精细化翻译，默认返回用户是看不懂的
         ServerHttpRequest request = exchange.getRequest();
         log.error("[responseStatusExceptionHandler][uri({}/{}) 发生异常]", request.getURI(), request.getMethod(), ex);
-        return GDCommonResult.error(String.valueOf(ex.getStatus().value()), ex);
+        return CommonResult.error(ex.getStatusCode().toString(), ex);
     }
 
     /**
      * 处理系统异常，兜底处理所有的一切
      */
     @ExceptionHandler(value = Exception.class)
-    public GDCommonResult<?> defaultExceptionHandler(ServerWebExchange exchange,
+    public CommonResult<?> defaultExceptionHandler(ServerWebExchange exchange,
             Throwable ex) {
         ServerHttpRequest request = exchange.getRequest();
         log.error("[defaultExceptionHandler][uri({}/{}) 发生异常:]", request.getURI(), request.getMethod(), ex);
 
         // 返回 ERROR GDCommonResult
-        return GDCommonResult.error(GDRetCode.FAILED);
+        return CommonResult.error(RetCode.FAILED);
     }
 
     /**
@@ -117,7 +117,7 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
      * @param resultMap
      * @return
      */
-    public static Mono<Void> resolveGenericException(ServerWebExchange exchange, GDCommonResult<?> result ) {
+    public static Mono<Void> resolveGenericException(ServerWebExchange exchange, CommonResult<?> result ) {
 
         return Mono.defer(() -> {
             byte[] bytes;

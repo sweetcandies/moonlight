@@ -13,6 +13,7 @@
     <name>common</name>
     <modules>
         <module>constant</module>
+        <module>tool</module>
     </modules>
 
     <properties>

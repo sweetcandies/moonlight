@@ -2,8 +2,8 @@ package com.funiverise.gateway.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.guideir.common.base.GDCommonResult;
-import com.guideir.common.base.GDRetCode;
+import com.funiverise.common.base.CommonResult;
+import com.funiverise.common.enums.RetCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
@@ -26,7 +26,7 @@ public class AccessDeniedHandler implements ServerAccessDeniedHandler {
     public Mono<Void> handle(ServerWebExchange serverWebExchange, AccessDeniedException e) {
         ServerHttpResponse response = serverWebExchange.getResponse();
         log.error("拒绝访问：{}", e.getMessage(),e);
-        GDCommonResult<Object> result =GDCommonResult.error(GDRetCode.NO_AUTH);
+        CommonResult<Object> result =CommonResult.error(RetCode.NO_AUTH);
         byte[] value = new byte[0];
         try {
             value = objectMapper.writeValueAsBytes(result);

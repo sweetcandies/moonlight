@@ -2,8 +2,8 @@ package com.funiverise.gateway.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.guideir.common.base.GDCommonResult;
-import com.guideir.common.base.GDRetCode;
+import com.funiverise.common.base.CommonResult;
+import com.funiverise.common.enums.RetCode;
 import com.guideir.gateway.log.GdFailureLogHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -30,7 +30,7 @@ public class AuthenticationEntryPoint implements ServerAuthenticationEntryPoint 
         try {
             ServerHttpResponse response = serverWebExchange.getResponse();
             log.error("拒绝访问：{}", serverWebExchange.getRequest().getURI() + " : " + e.getMessage(), e);
-            GDCommonResult<Object> result = GDCommonResult.error(GDRetCode.NO_AUTH);
+            CommonResult<Object> result = CommonResult.error(RetCode.NO_AUTH);
             byte[] value = new byte[0];
             try {
                 value = objectMapper.writeValueAsBytes(result);
@@ -39,8 +39,6 @@ public class AuthenticationEntryPoint implements ServerAuthenticationEntryPoint 
             }
             response.getHeaders().add("Content-Type", MediaType.APPLICATION_JSON.toString());
             response.setStatusCode(HttpStatus.OK);
-            // 请求失败的日志也记录一下
-            GdFailureLogHandler.recordLog(serverWebExchange);
             wrap = response.bufferFactory().wrap(value);
             return response.writeWith(Mono.just(wrap));
         } finally {
