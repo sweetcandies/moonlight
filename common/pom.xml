@@ -14,6 +14,7 @@
     <modules>
         <module>constant</module>
         <module>tool</module>
+        <module>authority-common</module>
     </modules>
 
     <properties>
