@@ -29,9 +29,6 @@ import static org.springframework.security.oauth2.server.authorization.config.an
 @Configuration
 public class Oauth2ServerConfig {
 
-    @Resource
-    private JdbcTemplate jdbcTemplate;
-
     /**
      * @description 密码加密器，使用国密SM3消息摘要算法存储密码
      * @author hanyuefan

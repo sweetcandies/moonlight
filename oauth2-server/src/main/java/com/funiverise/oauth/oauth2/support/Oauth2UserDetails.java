@@ -1,6 +1,6 @@
 package com.funiverise.oauth.oauth2.support;
 
-import com.guideir.system.common.dto.GdUserDTO;
+import com.moonlight.authority.common.dto.UserDTO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,9 +16,9 @@ import java.util.List;
  */
 public class Oauth2UserDetails implements UserDetails {
 
-    private GdUserDTO user;
+    private final UserDTO user;
 
-    public Oauth2UserDetails(GdUserDTO user) {
+    public Oauth2UserDetails(UserDTO user) {
         this.user = user;
     }
 
@@ -68,7 +68,7 @@ public class Oauth2UserDetails implements UserDetails {
         return user != null && user.getUserStatus() != null && user.getUserStatus() == 1;
     }
 
-    public GdUserDTO getUser() {
+    public UserDTO getUser() {
         return user;
     }
 }

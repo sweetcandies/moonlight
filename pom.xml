@@ -42,11 +42,12 @@
 		<!-- MQ 相关 -->
 		<rocketmq.version>2.2.2</rocketmq.version>
 		<!-- DB 相关 -->
-		<mysql.version>8.0.33</mysql.version>
+		<mysql.version>8.3.0</mysql.version>
 		<mybatis-plus.version>3.5.3.1</mybatis-plus.version>
 		<mybatis-plus-generator.version>3.5.3.1</mybatis-plus-generator.version>
 		<redisson.version>3.17.7</redisson.version>
 		<druid.version>1.2.9</druid.version>
+		<jsqlparse.version>4.2</jsqlparse.version>
 
 		<!--工具 相关-->
 		<mapstruct.version>1.5.3.Final</mapstruct.version>
@@ -62,6 +63,7 @@
 		<!--日志-->
 		<slf4j.api.version>1.7.26</slf4j.api.version>
 		<logback.version>1.5.16</logback.version>
+		<com.github.xiaoymin.version>3.0.3</com.github.xiaoymin.version>
 		<!-- docker相关版本设定 -->
 		<!--指定本次docker打包的版本-->
 		<docker.tag>V1.0</docker.tag>
@@ -131,6 +133,11 @@
 				<groupId>org.redisson</groupId>
 				<artifactId>redisson-spring-boot-starter</artifactId>
 				<version>${redisson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.jsqlparser</groupId>
+				<artifactId>jsqlparser</artifactId>
+				<version>${jsqlparse.version}</version>
 			</dependency>
 
 			<!-- 消息队列相关 -->
@@ -228,6 +235,11 @@
 				<groupId>org.liquibase</groupId>
 				<artifactId>liquibase-core</artifactId>
 				<version>${liquibase-core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.xiaoymin</groupId>
+				<artifactId>knife4j-spring-boot-starter</artifactId>
+				<version>${com.github.xiaoymin.version}</version>
 			</dependency>
 
 
